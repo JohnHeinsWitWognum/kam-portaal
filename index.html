@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1d3247">
+<meta name="robots" content="noindex">
+<style>
+:root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; font: 14px system-ui, -apple-system, "Segoe UI", sans-serif; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+<title>Wit Wognum Kam Portaal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: smalle kolom, header met projectstrook, knoppen gegroepeerd per KAM-categorie */
+:root {
+  --bg: #f3f5f7;
+  --surface: #ffffff;
+  --field: #f8fafb;
+  --ink: #17222e;
+  --muted: #5b6977;
+  --line: #d9dfe5;
+  --accent: #d9611c;
+  --accent-ink: #ffffff;
+  --head: #1d3247;
+  --head-ink: #f3f5f7;
+  --req: #c0262d;
+  --ok: #2f7a3e;
+  --cat-inc: #c2410c;
+  --cat-insp: #1f6f8b;
+  --cat-ovl: #4d7c3a;
+  --font-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #10171e; --surface: #18222c; --field: #121a22; --ink: #e6ebf0; --muted: #98a6b3; --line: #2a3744;
+    --accent: #ee7a37; --accent-ink: #10171e; --head: #0b1117; --head-ink: #e6ebf0; --req: #f07178; --ok: #7cc48a;
+    --cat-inc: #f08a55; --cat-insp: #5fb3cf; --cat-ovl: #8cc471; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #10171e; --surface: #18222c; --field: #121a22; --ink: #e6ebf0; --muted: #98a6b3; --line: #2a3744;
+  --accent: #ee7a37; --accent-ink: #10171e; --head: #0b1117; --head-ink: #e6ebf0; --req: #f07178; --ok: #7cc48a;
+  --cat-inc: #f08a55; --cat-insp: #5fb3cf; --cat-ovl: #8cc471; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--head); }
+
+header { background: var(--head); color: var(--head-ink); }
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header .wrap { padding-block: 28px 24px; display: grid; gap: 6px; }
+.brand { font-family: var(--font-display); font-stretch: 85%; font-weight: 600; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+h1 { margin: 0; font-family: var(--font-display); font-stretch: 80%; font-weight: 800; font-size: clamp(28px, 6vw, 40px); line-height: 1.05; text-wrap: balance; }
+.sub { margin: 0; color: color-mix(in srgb, var(--head-ink) 72%, transparent); max-width: 52ch; }
+.stripe { height: 6px; background: repeating-linear-gradient(-45deg, var(--accent) 0 14px, var(--head) 14px 28px); }
+
+main .wrap { padding-block: 24px 40px; display: grid; gap: 28px; }
+section { display: grid; gap: 10px; }
+h2 { margin: 0; display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-stretch: 85%; font-weight: 700; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+h2::before { content: ""; width: 10px; height: 10px; border-radius: 2px; background: var(--c); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+
+.tile { appearance: none; font: inherit; color: inherit; text-align: left; cursor: pointer;
+  display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 12px 14px;
+  background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--c); border-radius: 6px;
+  transition: transform .12s ease, border-color .12s ease; }
+.tile:hover { border-color: var(--c); transform: translateY(-1px); }
+.tile:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.tile .name { flex: 1; min-width: 0; font-weight: 600; font-size: 16px; line-height: 1.25; }
+.tile .meta { font-size: 12px; color: var(--muted); font-weight: 500; }
+.tile .arrow { color: var(--c); font-family: var(--font-display); font-weight: 700; font-size: 20px; }
+
+/* Formulier */
+.view { display: grid; gap: 16px; }
+.back { appearance: none; font: inherit; justify-self: start; cursor: pointer; background: none; border: 0; padding: 6px 0; color: var(--accent); font-weight: 600; }
+.back:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.titlebar { display: grid; gap: 2px; }
+.titlebar .cat { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--c); font-weight: 600; }
+.titlebar h3 { margin: 0; font-family: var(--font-display); font-stretch: 85%; font-weight: 800; font-size: 28px; line-height: 1.1; }
+.titlebar p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.req-mark { color: var(--req); font-weight: 700; }
+
+form { display: grid; gap: 16px; }
+fieldset { margin: 0; min-width: 0; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--c); border-radius: 6px; padding: 16px; display: grid; gap: 16px; }
+fieldset.kam { border-top-color: var(--muted); }
+legend { float: left; width: 100%; padding: 0; margin: 0; font-family: var(--font-display); font-stretch: 85%; font-weight: 700; font-size: 18px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+legend + * { clear: both; }
+.badge { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; background: var(--field); border: 1px solid var(--line); color: var(--muted); }
+
+.field { display: grid; gap: 6px; min-width: 0; }
+.field label, .field .label { font-weight: 600; font-size: 14px; }
+.field .hint { font-size: 12px; color: var(--muted); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 520px) { .row2 { grid-template-columns: 1fr; } }
+
+input[type=text], input[type=date], textarea, select {
+  width: 100%; font: inherit; color: var(--ink); background: var(--field);
+  border: 1px solid var(--line); border-radius: 5px; padding: 10px 12px; min-height: 44px;
+}
+textarea { resize: vertical; line-height: 1.45; }
+input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.field.invalid input, .field.invalid textarea { border-color: var(--req); }
+.field .err { color: var(--req); font-size: 12px; font-weight: 600; }
+
+.person { position: relative; }
+.person input { padding-left: 38px; }
+.person svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--muted); pointer-events: none; }
+
+.upload { display: grid; gap: 10px; }
+.upload label.drop { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 64px; padding: 12px; border: 1.5px dashed var(--line); border-radius: 6px; background: var(--field); cursor: pointer; font-weight: 600; color: var(--muted); text-align: center; }
+.upload label.drop:hover { border-color: var(--c); color: var(--ink); }
+.upload input[type=file] { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.upload input[type=file]:focus-visible + label.drop { outline: 3px solid var(--accent); outline-offset: 2px; }
+.thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; }
+.thumb { position: relative; aspect-ratio: 1; max-width: 100%; border-radius: 5px; overflow: hidden; border: 1px solid var(--line); background: var(--field); }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb button { position: absolute; top: 4px; right: 4px; width: 26px; height: 26px; border-radius: 50%; border: 0; background: color-mix(in srgb, var(--head) 85%, transparent); color: var(--head-ink); cursor: pointer; font-size: 15px; line-height: 1; }
+
+.choices { display: flex; flex-wrap: wrap; gap: 8px; border: 0; }
+.choice { position: relative; }
+.choice input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.choice span { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 18px; border: 1px solid var(--line); border-radius: 6px; background: var(--field); cursor: pointer; font-weight: 600; }
+.choice input:checked + span { background: var(--c); border-color: var(--c); color: var(--accent-ink); }
+.choice input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+.field.invalid .choice span, .field.invalid .drop { border-color: var(--req); }
+.field.cond { padding-left: 14px; border-left: 3px solid var(--line); }
+input[type=number] { width: 100%; max-width: 160px; font: inherit; color: var(--ink); background: var(--field); border: 1px solid var(--line); border-radius: 5px; padding: 10px 12px; min-height: 44px; }
+.notice { padding: 12px 14px; border-radius: 6px; border: 1px solid var(--req); background: color-mix(in srgb, var(--req) 10%, var(--surface)); color: var(--ink); font-size: 15px; }
+.notice strong { color: var(--req); }
+.choice.check span::before { content: ""; width: 14px; height: 14px; margin-right: 8px; border: 1.5px solid currentColor; border-radius: 3px; opacity: .6; }
+.choice.check input:checked + span::before { opacity: 1; background: currentColor; box-shadow: inset 0 0 0 2px var(--c); }
+.kamreq { font-size: 11px; font-weight: 600; color: var(--muted); }
+
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btn { appearance: none; font: inherit; font-weight: 600; cursor: pointer; min-height: 46px; padding: 10px 20px; border-radius: 6px; border: 1px solid transparent; }
+.btn.primary { background: var(--accent); color: var(--accent-ink); }
+.btn.ghost { background: transparent; border-color: var(--line); color: var(--ink); }
+.pdfpanel { display: grid; gap: 10px; padding: 14px; border: 1px solid var(--line); border-left: 4px solid var(--ok); border-radius: 6px; background: var(--surface); }
+.pdfinfo { display: grid; gap: 2px; min-width: 0; }
+.pdfinfo strong { color: var(--ok); }
+.pdfinfo span { font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.btn:disabled { opacity: .55; cursor: progress; }
+.btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.formerr { color: var(--req); font-weight: 600; font-size: 14px; }
+
+/* Overzicht na indienen */
+.done { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--ok); border-radius: 6px; padding: 16px; display: grid; gap: 14px; }
+.done h4 { margin: 0; font-family: var(--font-display); font-stretch: 85%; font-size: 20px; color: var(--ok); }
+.done p { margin: 0; color: var(--muted); }
+.summary { display: grid; gap: 14px; }
+.summary h5 { margin: 0; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.summary dl { margin: 0; display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); border-top: 1px solid var(--line); }
+.summary dt, .summary dd { margin: 0; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.summary dt { color: var(--muted); font-size: 13px; padding-right: 12px; }
+.summary dd { white-space: pre-wrap; overflow-wrap: anywhere; }
+.summary dd.empty { color: var(--muted); }
+@media (max-width: 520px) { .summary dl { grid-template-columns: 1fr; } .summary dt { border-bottom: 0; padding-bottom: 0; } }
+pre.copybox { margin: 0; max-height: 220px; overflow: auto; font-size: 12px; background: var(--field); border: 1px solid var(--line); border-radius: 5px; padding: 10px; white-space: pre-wrap; }
+
+footer .wrap { padding-block: 0 32px; color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: reduce) { .tile { transition: none; } .tile:hover { transform: none; } }
+</style>
+
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <span class="brand">Aannemingsbedrijf Wit Wognum</span>
+    <h1>Wit Wognum Kam Portaal</h1>
+    <p class="sub">Meldingen, inspecties en overleggen voor Kwaliteit, Arbo en Milieu. Kies het formulier dat je wilt invullen.</p>
+  </div>
+</header>
+<div class="stripe" aria-hidden="true"></div>
+
+<main>
+  <div class="wrap" id="home"></div>
+  <div class="wrap view" id="form" hidden></div>
+</main>
+
+<footer><div class="wrap">Vragen over een formulier? Neem contact op met kantoor.</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/* ---------- Formulierdefinities ----------
+   Veldtypes: persoon, tekst (kort), memo (meerdere regels), datum, foto
+   Een sectie met kam:true wordt ingevuld door de KAM-coördinator. */
+const FORMS = {
+  "afwijking": {
+    secties: [
+      { titel: "Gegevens betrokkenen", velden: [
+        { id: "betrokkene", label: "Betrokkene", type: "persoon" },
+        { id: "melder", label: "Melder", type: "persoon", verplicht: true },
+      ]},
+      { titel: "Afwijking", velden: [
+        { id: "omschrijving", label: "Omschrijving van de afwijking", type: "tekst", verplicht: true },
+        { id: "oorzaak", label: "Door wie/wat is de afwijking ontstaan?", type: "memo" },
+        { id: "voorkomen", label: "Hoe had de afwijking voorkomen kunnen worden?", type: "tekst", verplicht: true },
+        { id: "fotos", label: "Foto's van de afwijking, indien mogelijk", type: "foto" },
+        { id: "acties", label: "Zijn er acties ondernomen om herhaling te voorkomen?", type: "tekst", verplicht: true },
+      ]},
+      { titel: "Afhandeling KAM-coördinator", kam: true, velden: [
+        { id: "besproken_betrokkene", label: "Besproken met betrokkene", type: "tekst" },
+        { rij: [
+          { id: "rol_betrokkene", label: "Rol van betrokkene", type: "memo", rows: 2 },
+          { id: "datum_betrokkene", label: "Datum", type: "datum" },
+        ]},
+        { id: "besproken_melder", label: "Besproken met melder", type: "persoon" },
+        { rij: [
+          { id: "rol_melder", label: "Rol van melder", type: "memo", rows: 2 },
+          { id: "datum_melder", label: "Datum", type: "datum" },
+        ]},
+        { id: "waarom", label: "Waarom is de afwijking / het incident ontstaan?", type: "memo" },
+        { id: "herstel", label: "Omschrijf (indien van toepassing) de te nemen herstelmaatregelen", type: "memo" },
+        { id: "corrigerend", label: "Omschrijf (indien van toepassing) de corrigerende maatregelen", type: "memo" },
+        { id: "preventief", label: "Omschrijf (indien van toepassing) de preventieve maatregelen", type: "memo" },
+      ]},
+    ],
+  },
+  "bijna-ongeval": {
+    secties: [
+      { titel: "Gegevens betrokkenen", velden: [
+        { id: "betrokkene", label: "Betrokkene", type: "persoon" },
+        { id: "melder", label: "Melder", type: "persoon", verplicht: true },
+      ]},
+      { titel: "Bijna ongeval", velden: [
+        { id: "situatie", label: "Omschrijving situatie", type: "tekst", verplicht: true },
+        { id: "omschrijving", label: "Omschrijving bijna ongeval", type: "tekst", verplicht: true },
+        { id: "ernst", label: "Ernst van het bijna ongeval", type: "keuze", opties: ["Laag", "Gemiddeld", "Hoog"], verplicht: true },
+        { id: "voorkomen", label: "Hoe had het (bijna)ongeval voorkomen kunnen worden?", type: "tekst", verplicht: true },
+        { id: "fotos", label: "Foto's situatie na incident", type: "foto" },
+        { id: "acties", label: "Zijn er acties ondernomen om herhaling van het bijna ongeval te voorkomen?", type: "keuze", opties: ["Ja", "Nee"], verplicht: true },
+        { id: "acties_welke", label: "De volgende acties zijn ondernomen", type: "tekst", toon: { veld: "acties", is: "Ja" } },
+        { id: "acties_waarom_niet", label: "Waarom zijn er geen acties ondernomen?", type: "tekst", toon: { veld: "acties", is: "Nee" } },
+      ]},
+      { titel: "Afhandeling KAM-coördinator", kam: true, velden: [
+        { id: "besproken_betrokkene", label: "Besproken met betrokkene", type: "tekst" },
+        { rij: [
+          { id: "rol_betrokkene", label: "Rol van betrokkene", type: "memo", rows: 2 },
+          { id: "datum_betrokkene", label: "Datum", type: "datum" },
+        ]},
+        { id: "besproken_melder", label: "Besproken met melder", type: "persoon" },
+        { rij: [
+          { id: "rol_melder", label: "Rol van melder", type: "memo", rows: 2 },
+          { id: "datum_melder", label: "Datum", type: "datum" },
+        ]},
+        { id: "waarom", label: "Waarom is de schade / het (bijna)ongeval ontstaan?", type: "memo", verplicht: true },
+        { id: "herstel", label: "Omschrijf (indien van toepassing) de te nemen herstelmaatregelen", type: "memo" },
+        { id: "corrigerend", label: "Omschrijf (indien van toepassing) de corrigerende maatregelen", type: "memo" },
+        { id: "preventief", label: "Omschrijf (indien van toepassing) de preventieve maatregelen", type: "memo" },
+        { id: "conclusie", label: "Conclusie", type: "memo" },
+        { id: "opvolg", label: "Zijn er opvolgacties benodigd?", type: "keuze", opties: ["Ja", "Nee"] },
+        { id: "opvolg_aantal", label: "Hoeveel opvolgacties zijn benodigd?", type: "aantal", toon: { veld: "opvolg", is: "Ja" } },
+      ]},
+    ],
+  },
+  "ongeval": {
+    melding: "Meld een ongeval direct per telefoon aan kantoor.",
+    secties: [
+      { titel: "Gegevens betrokkenen", velden: [
+        { id: "betrokkene", label: "Betrokkene", type: "persoon" },
+        { id: "in_dienst_bij", label: "Betrokkene in dienst bij", type: "tekst" },
+        { id: "melder", label: "Melder", type: "persoon", verplicht: true },
+      ]},
+      { titel: "Beschrijving ongeval", velden: [
+        { id: "situatie", label: "Omschrijving situatie", type: "tekst", verplicht: true },
+        { id: "omschrijving", label: "Omschrijving ongeval", type: "tekst", verplicht: true },
+        { id: "ernst", label: "Ernst van het ongeval volgens betrokkene", type: "keuze", opties: ["Laag", "Gemiddeld", "Hoog"], verplicht: true },
+        { id: "voorkomen", label: "Hoe had het ongeval voorkomen kunnen worden?", type: "tekst", verplicht: true },
+        { id: "fotos", label: "Foto's situatie na incident", type: "foto", verplicht: true },
+        { id: "oorzaak", label: "Waardoor is het ongeval ontstaan?", type: "meerkeuze", opties: ["Onveilige handeling", "Onveilige situatie"], verplicht: true, hint: "Meerdere antwoorden mogelijk." },
+        { id: "onveilige_handeling", label: "Omschrijving onveilige handeling", type: "keuze", opties: ["Verkeerd gebruik van gereedschap", "Verkeerd gebruik van materieel", "Verkeerd gebruik van PBM"], toon: { veld: "oorzaak", bevat: "Onveilige handeling" } },
+        { id: "onveilige_situatie", label: "Omschrijving onveilige situatie", type: "keuze", opties: ["Defect aan gereedschap of materieel", "Mankement aan bouwplaats inrichting", "Mankement aan steiger of randbeveiliging"], toon: { veld: "oorzaak", bevat: "Onveilige situatie" } },
+        { id: "letsel_waar", label: "Waar bevindt zich het letsel?", type: "meerkeuze", opties: ["Arm", "Been", "Hand", "Hoofd", "Oog", "Romp", "Rug", "Vinger", "Voet"], verplicht: true, hint: "Meerdere antwoorden mogelijk." },
+        { id: "letsel_omschrijving", label: "Geef een omschrijving van het letsel", type: "tekst", verplicht: true },
+        { id: "arts", label: "Is een arts of ziekenhuis bezocht voor behandeling van het letsel?", type: "keuze", opties: ["Ja", "Nee"], verplicht: true },
+        { id: "arts_naam", label: "Naam ziekenhuis en/of arts", type: "tekst", toon: { veld: "arts", is: "Ja" } },
+      ]},
+      { titel: "Afhandeling KAM-coördinator", kam: true, velden: [
+        { id: "besproken_betrokkene", label: "Besproken met betrokkene", type: "tekst" },
+        { rij: [
+          { id: "rol_betrokkene", label: "Rol van betrokkene", type: "memo", rows: 2 },
+          { id: "datum_betrokkene", label: "Datum", type: "datum" },
+        ]},
+        { id: "besproken_melder", label: "Besproken met melder", type: "persoon" },
+        { rij: [
+          { id: "rol_melder", label: "Rol van melder", type: "memo", rows: 2 },
+          { id: "datum_melder", label: "Datum", type: "datum" },
+        ]},
+        { id: "waarom", label: "Waarom is de schade / het (bijna)ongeval ontstaan?", type: "memo", verplicht: true },
+        { id: "herstel", label: "Omschrijf (indien van toepassing) de te nemen herstelmaatregelen", type: "memo" },
+        { id: "corrigerend", label: "Omschrijf (indien van toepassing) de corrigerende maatregelen", type: "memo" },
+        { id: "preventief", label: "Omschrijf (indien van toepassing) de preventieve maatregelen", type: "memo" },
+        { id: "conclusie", label: "Conclusie", type: "memo" },
+        { id: "opvolg", label: "Zijn er opvolgacties benodigd?", type: "keuze", opties: ["Ja", "Nee"] },
+        { id: "opvolg_aantal", label: "Hoeveel opvolgacties zijn benodigd?", type: "aantal", toon: { veld: "opvolg", is: "Ja" } },
+      ]},
+    ],
+  },
+  "schade": {
+    secties: [
+      { titel: "Gegevens betrokkenen", velden: [
+        { id: "betrokkene", label: "Betrokkene", type: "persoon" },
+        { id: "in_dienst_bij", label: "Betrokkene in dienst bij", type: "tekst" },
+        { id: "melder", label: "Melder", type: "persoon", verplicht: true },
+      ]},
+      { titel: "Beschrijving schade", velden: [
+        { id: "voertuig", label: "Is er een auto, aanhanger, verreiker, bouwkraan, heftruck, kniklader of ander vervoersmiddel betrokken bij de schade?", type: "keuze", opties: ["Ja", "Nee"], verplicht: true },
+        { id: "kentekens", label: "Geef de kentekens van de betrokken vervoersmiddelen in", type: "tekst", toon: { veld: "voertuig", is: "Ja" } },
+        { id: "omschrijving", label: "Omschrijf de schade", type: "tekst", verplicht: true },
+        { id: "oorzaak", label: "Omschrijf waardoor de schade is ontstaan", type: "tekst", verplicht: true },
+        { id: "veroorzaakt_door", label: "Door wie/wat is de schade veroorzaakt?", type: "tekst" },
+        { id: "voorkomen", label: "Hoe had de schade voorkomen kunnen worden?", type: "tekst" },
+        { id: "fotos", label: "Foto's van de schade", type: "foto", verplicht: true },
+      ]},
+      { titel: "Afhandeling KAM-coördinator", kam: true, velden: [
+        { id: "besproken_betrokkene", label: "Besproken met betrokkene", type: "tekst" },
+        { rij: [
+          { id: "rol_betrokkene", label: "Rol van betrokkene", type: "memo", rows: 2 },
+          { id: "datum_betrokkene", label: "Datum", type: "datum" },
+        ]},
+        { id: "besproken_melder", label: "Besproken met melder", type: "persoon" },
+        { rij: [
+          { id: "rol_melder", label: "Rol van melder", type: "memo", rows: 2 },
+          { id: "datum_melder", label: "Datum", type: "datum" },
+        ]},
+        { id: "waarom", label: "Waarom is de schade / het (bijna)ongeval ontstaan?", type: "memo", verplicht: true },
+        { id: "herstel", label: "Omschrijf (indien van toepassing) de te nemen herstelmaatregelen", type: "memo" },
+        { id: "corrigerend", label: "Omschrijf (indien van toepassing) de corrigerende maatregelen", type: "memo" },
+        { id: "preventief", label: "Omschrijf (indien van toepassing) de preventieve maatregelen", type: "memo" },
+        { id: "conclusie", label: "Conclusie", type: "memo" },
+        { id: "opvolg", label: "Zijn er opvolgacties benodigd?", type: "keuze", opties: ["Ja", "Nee"] },
+        { id: "opvolg_aantal", label: "Hoeveel opvolgacties zijn benodigd?", type: "aantal", toon: { veld: "opvolg", is: "Ja" } },
+      ]},
+    ],
+  },
+  "steigerinspectie": {
+    secties: [
+      { titel: "Steigerlabel & documentatie", velden: [
+        jnv("label_opgang", "Is bij elke opgang (trappentoren) een steigerlabel met benodigde informatie aangebracht?"),
+        jnv("draagkracht", "Is de ondergrond voldoende draagkrachtig?"),
+      ]},
+      { titel: "Ondergrond en stabiliteit", velden: [
+        jnv("label_geldig", "Is een geldig steigerlabel aanwezig, correct ingevuld (datum, handtekening, status) en goed zichtbaar en leesbaar?"),
+        jnv("spindels", "Staan de staanders op spindels/voetplaten met onderslagen?"),
+        jnv("graafwerk", "Is de steiger vrij van graafwerk in of nabij de ondergrond van de steiger?"),
+        jnv("verzakking", "Zijn er geen verzakkingen of scheefstand zichtbaar?"),
+      ]},
+      { titel: "Toegang en opgangen", velden: [
+        jnv("ladders", "Zijn de ladders als toegang tot de steiger onder de juiste hoek geplaatst, deugdelijk geborgd en veilig bruikbaar?"),
+      ]},
+      { titel: "Constructie en verankering", velden: [
+        jnv("constructie", "Is de steigerconstructie, inclusief verankeringen volgens verankeringspatroon, diagonalen/schoren en koppelingen, volledig aanwezig, onbeschadigd en stevig vastgezet?"),
+      ]},
+      { titel: "Werkvloeren en valbeveiliging", velden: [
+        jnv("vloeren", "Zijn alle steigervloeren volledig, goed aangesloten en geborgd?", "Denk hierbij aan bijvoorbeeld beschadigde onderdelen of krom getrokken steigerdelen."),
+        jnv("leuningen", "Zijn alle leuningen aanwezig en deugdelijk bevestigd?"),
+        jnv("kantplanken", "Zijn alle kantplanken aanwezig en deugdelijk bevestigd?"),
+      ]},
+      { titel: "Gebruik en belasting", velden: [
+        jnv("overbelast", "Wordt de steiger niet overbelast?"),
+        jnv("afval", "Is de steiger vrij van afval en obstakels?"),
+      ]},
+      { titel: "Omgeving en weersinvloeden", velden: [
+        jnv("beschadigd", "Is de steiger niet beschadigd door aanrijding of externe weersinvloeden?"),
+        jnv("weer", "Zijn zo nodig extra maatregelen noodzakelijk bij ongunstige weersomstandigheden (gladheid, regen, storm)?"),
+        { ...jnv("veilig", "Is de steiger veilig voor gebruik verklaard?"), verplicht: false },
+      ]},
+      { titel: "Actiepunten/herstelmaatregelen", velden: [
+        { id: "gebrek", label: "Omschrijving gebrek", type: "tekst", verplicht: true },
+        { id: "aktie", label: "Actie", type: "memo", rows: 3 },
+        { rij: [
+          { id: "verantwoordelijke", label: "Verantwoordelijke", type: "persoon", verplicht: true },
+          { id: "datum_actie", label: "Datum", type: "datum", verplicht: true },
+        ]},
+      ]},
+    ],
+  },
+  "werkplek-algemeen": {
+    secties: [
+      { titel: "Algemeen", velden: [
+        { id: "inspecteur", label: "Inspectie uitgevoerd door", type: "persoon", verplicht: true },
+        { id: "bouwfase", label: "Kies de bouwfase waarin het project zich bevindt", type: "lijst", opties: ["Fundatie", "Skelet", "Gevel/dak", "Afbouw"], verplicht: true },
+      ]},
+      { titel: "Organisatie / opvolgacties", velden: [
+        jnv("vorige_punten", "Zijn de punten uit de voorgaande inspectie verholpen?"),
+        jnv("toolbox", "Is de toolboxmeeting vorige periode gehouden?"),
+        jnv("gemeld", "Zijn alle (bijna)ongevallen, schades, voorvallen en verbeteringen die op het werk hebben plaatsgevonden gemeld?"),
+        jnv("vgm_aanwezig", "Zijn de veiligheidsregels en -voorschriften (VGM) op dit werk aanwezig?"),
+        jnv("vgm_derden", "Worden veiligheidsregels en -voorschriften (VGM) ook door personeel van derden opgevolgd?"),
+        jnv("startwerkinstructie", "Startwerkinstructie correct uitgevoerd en afgetekend?"),
+        jnv("lmra", "Zijn er LMRA's of TRA's aanwezig?"),
+      ]},
+      { titel: "Bedrijfshulpverlening", velden: [
+        jnv("alarmkaart", "Is de alarmkaart correct ingevuld, nog actueel en opgehangen?"),
+        jnv("ehbo", "EHBO-koffer aanwezig en binnen de keuring?"),
+        jnv("blusmiddelen", "Blusmiddelen aanwezig en binnen de keuring?"),
+      ]},
+      { titel: "Gebruik PBM", velden: [
+        jnv("werkkleding", "Wordt de juiste en voor het weer geschikte werkkleding gedragen?"),
+        jnv("pbm_juist", "Wordt er gebruik gemaakt van de juiste PBM's (helm, bril, schoenen, gehoorbescherming, adembescherming)?"),
+        jnv("pbm_gekeurd", "Zijn de keuringsplichtige PBM's die worden gebruikt gekeurd?"),
+      ]},
+      { titel: "Bouwplaats algemeen", velden: [
+        jnv("schaftruimte", "Is schaftruimte en sanitair voldoende en schoon?"),
+        jnv("hekken", "Is het bouwterrein afgezet met hekken en voorzien van de juiste bebording?"),
+        jnv("ordelijk", "Is het bouwterrein netjes en ordelijk?"),
+        jnv("verlichting", "Is de verlichting op de bouwplaats en in de trappenhuizen voldoende?"),
+        jnv("bouwstraat", "Is de bouwstraat goed toegankelijk?"),
+        jnv("wegvliegend", "Is er geen gevaar voor wegvliegende delen?"),
+        jnv("brand", "Is er geen gevaar voor brand?"),
+      ]},
+      { titel: "Zaagplaats", velden: [
+        jnv("zaagmachine", "Is de zaagmachine volgens voorschriften en zijn alle hulpmiddelen (duwhout, geleider, afschermkap en spouwmes) aanwezig?"),
+        jnv("zaagtafel", "Is er rondom de zaagtafel opgeruimd (struikelgevaar)?"),
+        jnv("stofafzuiging_zaag", "Is de zaagmachine aangesloten op stofafzuiging?"),
+      ]},
+      { titel: "Ladders / rolsteigers", velden: [
+        jnv("alu_ladders", "Zijn de aluminium ladders in goede staat en binnen de keuringstermijn?"),
+        jnv("houten_ladders", "Zijn de houten ladders visueel beoordeeld en verkeren deze in goede staat?"),
+        jnv("ladders_opgesteld", "Staan de ladders juist opgesteld, geborgd en met voldoende doorsteekhoogte?"),
+        jnv("rolsteiger_staat", "Zijn de rolsteigers in goede staat en binnen de keuringstermijn?"),
+        jnv("rolsteiger_opbouw", "Zijn de rolsteigers goed opgebouwd (volgens voorschrift)?"),
+      ]},
+      { titel: "Gereedschap", velden: [
+        jnv("gereedschap_gekeurd", "Wordt er gewerkt met gekeurd gereedschap?"),
+        jnv("stofafzuiging", "Wordt er op juiste wijze gebruik gemaakt van de stofafzuiging?"),
+      ]},
+      { titel: "Materieel", velden: [
+        jnv("geschoord", "Zijn constructies op juiste wijze geschoord?"),
+        jnv("schroefstempels", "Worden stalen schroefstempels op de juiste wijze ingezet?"),
+      ]},
+      { titel: "Hijsen en heffen", velden: [
+        jnv("hijskranen", "(Mobiele) hijskranen in goede staat en binnen de keuringstermijn?"),
+        jnv("verreiker", "Is de verreiker in goede staat en binnen de keuringstermijn?"),
+        jnv("hijsmiddelen", "Hijsmiddelen in goede staat en binnen de keuringstermijn?"),
+        jnv("hijsbegeleiders", "Zijn er hijsbegeleiders aangesteld?"),
+        jnv("hijsbegeleiders_herkenbaar", "Zijn de hijsbegeleiders herkenbaar voor de kraanmachinist?"),
+        jnv("aanpikkers", "Hebben aanpikkers instructie gekregen voor het aanpikken van lasten?"),
+      ]},
+      { titel: "Steiger", velden: [
+        jnv("steiger_ondergrond", "Is de ondergrond voldoende draagkrachtig?"),
+        jnv("steigervloer", "Is de steigervloer compleet en opgeruimd?"),
+        jnv("steiger_leuningen", "Zijn de leuningen en kantplanken overal nog compleet?"),
+        jnv("steiger_gevel", "Is de max. ruimte tussen de steiger en gevel 15 cm?"),
+        jnv("steigerkaart", "Is de steigerkaart aanwezig?"),
+      ]},
+      { titel: "Werken op hoogte", velden: [
+        jnv("dakranden", "Dak- en vloerranden voorzien van leuningen en kantplanken?"),
+        jnv("sparingen", "Dak- en vloersparingen dicht en afgeschermd?"),
+        jnv("wandopeningen", "Wandopeningen dicht of afgeschermd?"),
+        jnv("valbeveiliging", "Valbeveiligingen en harnassen worden op juiste wijze gebruikt?"),
+        jnv("valharnassen", "Zijn de valharnassen gekeurd en binnen de keuringstermijn?"),
+      ]},
+      { titel: "Milieu", velden: [
+        jnv("afval", "Wordt afval op juiste wijze gescheiden op de bouwplaats?"),
+        jnv("containers", "Zijn voldoende containers aanwezig?"),
+        jnv("containers_bebording", "Zijn containers voorzien van de juiste bebording?"),
+        jnv("bodem", "Is er gevaar voor bodemverontreiniging?"),
+      ]},
+      { titel: "Algemene indruk van de bouwplaats", velden: [
+        { id: "indruk", label: "Wat is de overall indruk van de bouwplaats?", type: "keuze", opties: ["1: Onveilig", "2: Matig", "3: Voldoende", "4: Goed"], verplicht: true },
+        { id: "positief", label: "Welke positieve Veiligheid, Gezondheid & Milieu (VGM) aspecten zijn opgevallen?", type: "memo" },
+      ]},
+      { titel: "Afhandeling KAM-coördinator", kam: true, velden: [
+        { id: "afwijkingen", label: "Zijn er afwijkingen geconstateerd?", type: "keuze", opties: ["Ja", "Nee"] },
+        { id: "opvolg", label: "Zijn er opvolgacties benodigd?", type: "keuze", opties: ["Ja", "Nee"] },
+        { id: "opvolg_aantal", label: "Hoeveel opvolgacties zijn benodigd?", type: "aantal", toon: { veld: "opvolg", is: "Ja" } },
+      ]},
+    ],
+  },
+  "werkplek-directie": {
+    secties: [
+      { titel: "Algemeen", velden: [
+        { id: "datum", label: "Datum inspectie", type: "datum", verplicht: true },
+        { id: "inspecteur", label: "Inspectie uitgevoerd door", type: "persoon", verplicht: true },
+        { id: "besproken_met", label: "Inspectie besproken met", type: "persoon", verplicht: true },
+      ]},
+      { titel: "Algemene indruk van het bouwterrein", velden: [
+        jnvo("hekwerk", "Is het bouwterrein deugdelijk afgeschermd met een hekwerk?"),
+        jnvo("uitstraling", "Heeft de bouwplaats een verzorgde uitstraling?"),
+        jnvo("reclame", "Zijn de reclame-uitingen herkenbaar aangebracht?"),
+        jnvo("diefstal", "Is op juiste wijze aandacht besteed aan diefstalpreventie?"),
+        jnvo("bhv", "Is duidelijk herkenbaar hoe de bedrijfshulpverlening is geregeld?"),
+      ]},
+      { titel: "Kijk tijdens de rondgang rond en geef een oordeel over", velden: [
+        jnvo("helm", "Wordt de helmdraagplicht nageleefd?"),
+        jnvo("schoeisel", "Wordt veiligheidsschoeisel gedragen?"),
+        jnvo("bedrijfskleding", "Wordt er bedrijfskleding gedragen?"),
+      ]},
+      { titel: "Orde en netheid van het bouwterrein", velden: [
+        jnvo("looproutes", "Zijn de looproutes vrij van obstakels?"),
+        jnvo("trappenhuizen", "Zijn trappenhuizen voorzien van een leuning?"),
+        jnvo("verlichting", "Zijn de werkplekken voldoende verlicht?"),
+      ]},
+      { titel: "Steigers (indien aanwezig)", velden: [
+        jnvo("dubbele_leuning", "Dubbele leuning zonder onderbreking?"),
+        jnvo("kantplanken", "Zijn kantplanken ononderbroken aanwezig?"),
+        jnvo("afstand_gevel", "Is de afstand tussen steigervloer en de gevel max. 15 cm?"),
+        jnvo("rommel", "Is de steigervloer vrij van rommel?"),
+      ]},
+      { titel: "Valgevaar tijdens de rondgang", velden: [
+        jnvo("sparingen", "Zijn vloersparingen dichtgelegd of afgezet?"),
+        jnvo("randen", "Zijn vloer- en dakranden afgezet met dubbele leuning en kantplanken?"),
+      ]},
+      { titel: "Afvalcontainers", velden: [
+        jnvo("afval", "Wordt afval correct gescheiden?"),
+      ]},
+      { titel: "Algemene indruk", velden: [
+        { id: "indruk", label: "Wat is de overall indruk van de bouwplaats?", type: "keuze", opties: ["1: Onveilig", "2: Matig", "3: Voldoende", "4: Goed"], verplicht: true },
+        { id: "positief", label: "Wat is positief opgevallen tijdens de inspectie?", type: "memo" },
+      ]},
+      { titel: "Afronding door directie", velden: [
+        { id: "besproken_uitvoerder", label: "Is de uitkomst van de inspectie besproken met de verantwoordelijk uitvoerder?", type: "keuze", opties: ["Ja", "Nee"] },
+        { id: "opvolg", label: "Zijn er n.a.v. de inspectie opvolgacties nodig?", type: "keuze", opties: ["Ja", "Nee"] },
+        { id: "opvolg_omschrijving", label: "Omschrijf de opvolgacties", type: "memo", toon: { veld: "opvolg", is: "Ja" } },
+      ]},
+    ],
+  },
+  "werkplek-directie-uitgebreid": {
+    secties: [
+      { titel: "Algemeen", velden: [
+        { id: "datum", label: "Datum inspectie", type: "datum", verplicht: true },
+        { id: "inspecteur", label: "Inspectie uitgevoerd door", type: "persoon", verplicht: true },
+        { id: "besproken_met", label: "Inspectie besproken met", type: "persoon", verplicht: true },
+      ]},
+      { titel: "Algemene indruk van het bouwterrein", velden: [
+        jnvo("hekwerk", "Is het bouwterrein deugdelijk afgeschermd met een hekwerk?"),
+        jnvo("uitstraling", "Heeft de bouwplaats een verzorgde uitstraling?"),
+        jnvo("reclame", "Zijn de reclame-uitingen herkenbaar aangebracht?"),
+        jnvo("diefstal", "Is op juiste wijze aandacht besteed aan diefstalpreventie?"),
+        jnvo("bhv", "Is duidelijk herkenbaar hoe de bedrijfshulpverlening is geregeld?"),
+        jnvo("alarmkaart", "Alarmkaart: veiligheid- en milieudeel volledig ingevuld en opgehangen?"),
+        jnvo("brandblussers", "Zijn brandblussers in de keet aanwezig en binnen de keuringstermijn?"),
+        jnvo("ehbo", "Zijn EHBO-koffers aanwezig en binnen de keuringstermijn?"),
+      ]},
+      { titel: "Kijk tijdens de rondgang rond en geef een oordeel over", velden: [
+        jnvo("helm", "Wordt de helmdraagplicht nageleefd?"),
+        jnvo("gehoor", "Wordt bij veel lawaai gehoorbescherming gedragen?"),
+        jnvo("schoeisel", "Wordt veiligheidsschoeisel gedragen?"),
+        jnvo("bedrijfskleding", "Wordt er bedrijfskleding gedragen?"),
+      ]},
+      { titel: "Orde en netheid van het bouwterrein", velden: [
+        jnvo("werkplek_rommel", "Is de werkplek vrij van rommel?"),
+        jnvo("looproutes", "Zijn de looproutes vrij van obstakels?"),
+        jnvo("trappenhuizen", "Zijn trappenhuizen voorzien van een leuning?"),
+        jnvo("ladders", "Staan de ladders geborgd?"),
+        jnvo("verlichting", "Zijn de werkplekken voldoende verlicht?"),
+      ]},
+      { titel: "Steigers (indien aanwezig)", velden: [
+        jnvo("dubbele_leuning", "Dubbele leuning zonder onderbreking?"),
+        jnvo("kantplanken", "Zijn kantplanken ononderbroken aanwezig?"),
+        jnvo("afstand_gevel", "Is de afstand tussen steigervloer en de gevel max. 15 cm?"),
+        jnvo("rommel", "Is de steigervloer vrij van rommel?"),
+      ]},
+      { titel: "Valgevaar tijdens de rondgang", velden: [
+        jnvo("sparingen", "Zijn vloersparingen dichtgelegd of afgezet?"),
+        jnvo("randen", "Zijn vloer- en dakranden afgezet met dubbele leuning en kantplanken?"),
+      ]},
+      { titel: "Veiligheidsbewustzijn vakman", velden: [
+        { id: "vakman_intro", type: "info", label: "Spreek een vakman aan tijdens de rondgang en stel de volgende vragen om een indruk te krijgen van het veiligheidsbewustzijn." },
+        jnvo("vakman_bhv", "Weet hij wie BHV-er is op de bouwplaats?"),
+        jnvo("vakman_toolbox", "Ontvangt hij maandelijks een toolbox?"),
+        jnvo("vakman_gemeld", "Heeft hij wel eens een (bijna) ongeval of gevaarlijke situatie gemeld?"),
+        jnvo("vakman_veilig", "Vindt hij dat hij veilig kan werken?"),
+        { id: "vakman_positief", label: "Wat ervaart de vakman als positief tijdens dit project?", type: "memo" },
+      ]},
+      { titel: "Afvalcontainers", velden: [
+        jnvo("bordjes", "Zijn de containers voorzien van bordjes waarop staat aangegeven welke afvalstroom het betreft?"),
+        jnvo("afval", "Wordt afval correct gescheiden?"),
+      ]},
+      { titel: "Algemene indruk", velden: [
+        { id: "indruk", label: "Wat is de overall indruk van de bouwplaats?", type: "keuze", opties: ["1: Onveilig", "2: Matig", "3: Voldoende", "4: Goed"], verplicht: true },
+        { id: "positief", label: "Wat is positief opgevallen tijdens de inspectie?", type: "memo" },
+      ]},
+      { titel: "Afronding door directie", velden: [
+        { id: "besproken_uitvoerder", label: "Is de uitkomst van de inspectie besproken met de verantwoordelijk uitvoerder?", type: "keuze", opties: ["Ja", "Nee"] },
+        { id: "opvolg", label: "Zijn er n.a.v. de inspectie opvolgacties nodig?", type: "keuze", opties: ["Ja", "Nee"] },
+        { id: "opvolg_omschrijving", label: "Omschrijf de opvolgacties", type: "memo", toon: { veld: "opvolg", is: "Ja" } },
+      ]},
+    ],
+  },
+  "toolbox": {
+    secties: [
+      { titel: "Algemeen", velden: [
+        { id: "onderwerp", label: "Onderwerp", type: "tekst", verplicht: true, hint: "Wordt een keuzelijst zodra de onderwerpen bekend zijn." },
+        { rij: [
+          { id: "datum", label: "Datum overleg", type: "datum", verplicht: true },
+          { id: "uitgevoerd_door", label: "Uitgevoerd door", type: "tekst", verplicht: true },
+        ]},
+      ]},
+      { titel: "Verslag overleg", velden: [
+        { id: "mededelingen", label: "Mededelingen algemeen", type: "tekst", verplicht: true },
+        { id: "vgm_info", label: "Informatie over het VGM-onderwerp of -instructie", type: "tekst", verplicht: true },
+        { id: "incidenten", label: "Zijn er nog incidenten of bijzonderheden te melden?", type: "keuze", opties: ["Ja", "Nee"], verplicht: true },
+        { id: "incident_omschrijving", label: "Omschrijving van het incident", type: "tekst", toon: { veld: "incidenten", is: "Ja" } },
+      ]},
+    ],
+  },
+  "verbetering": {
+    secties: [
+      { titel: "Gegevens betrokkenen", velden: [
+        { id: "betrokkene", label: "Betrokkene", type: "persoon" },
+        { id: "melder", label: "Melder", type: "persoon", verplicht: true },
+      ]},
+      { titel: "Verbetering", velden: [
+        { id: "omschrijving", label: "Omschrijving van de verbetering", type: "tekst", verplicht: true },
+        { id: "doel", label: "Wat is het doel van de verbetering?", type: "tekst", verplicht: true },
+      ]},
+      { titel: "Afhandeling KAM-coördinator", kam: true, velden: [
+        { rij: [
+          { id: "besproken_betrokkene", label: "Besproken met betrokkene", type: "tekst" },
+          { id: "datum_betrokkene", label: "Datum", type: "datum" },
+        ]},
+        { id: "rol_betrokkene", label: "Rol van betrokkene", type: "memo", rows: 2 },
+        { rij: [
+          { id: "besproken_melder", label: "Besproken met melder", type: "persoon" },
+          { id: "datum_melder", label: "Datum", type: "datum" },
+        ]},
+        { id: "rol_melder", label: "Rol van melder", type: "memo", rows: 2 },
+      ]},
+    ],
+  },
+};
+
+function jnvo(id, label, hint) {
+  return { ...jnv(id, label, hint), verplicht: false };
+}
+
+function jnv(id, label, hint) {
+  return { id, label, type: "keuze", opties: ["Ja", "Nee", "N.v.t."], verplicht: true, ...(hint ? { hint } : {}) };
+}
+
+const GROUPS = [
+  { titel: "Meldingen", kleur: "var(--cat-inc)", items: [
+    ["afwijking", "Afwijking"],
+    ["bijna-ongeval", "Bijna ongeval"],
+    ["ongeval", "Ongeval"],
+    ["schade", "Schade"],
+  ]},
+  { titel: "Inspecties", kleur: "var(--cat-insp)", items: [
+    ["steigerinspectie", "Steigerinspectie"],
+    ["werkplek-algemeen", "Werkplekinspectie algemeen"],
+    ["werkplek-directie", "Werkplekinspectie directie"],
+    ["werkplek-directie-uitgebreid", "Werkplekinspectie directie (uitgebreid)"],
+  ]},
+  { titel: "Overleg en verbetering", kleur: "var(--cat-ovl)", items: [
+    ["toolbox", "Toolbox / VGM-overleg"],
+    ["verbeterformulier", "Verbeterformulier"],
+    ["verbetering", "Verbetering"],
+  ]},
+];
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+const home = document.getElementById("home");
+const view = document.getElementById("form");
+const lookup = {};
+
+home.innerHTML = GROUPS.map(g => `
+  <section style="--c:${g.kleur}">
+    <h2>${g.titel}</h2>
+    <div class="grid">
+      ${g.items.map(([id, naam]) => {
+        lookup[id] = { naam, groep: g.titel, kleur: g.kleur };
+        const klaar = !!FORMS[id];
+        return `<button class="tile" type="button" data-id="${id}" id="btn-${id}">
+          <span class="name">${naam}${klaar ? "" : `<br><span class="meta">Nog in te richten</span>`}</span>
+          <span class="arrow" aria-hidden="true">›</span>
+        </button>`;
+      }).join("")}
+    </div>
+  </section>`).join("");
+
+home.addEventListener("click", e => {
+  const b = e.target.closest(".tile");
+  if (b) location.hash = b.dataset.id;
+});
+
+/* ---------- Velden renderen ---------- */
+const PERSON_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>`;
+let fotoStore = {};
+
+function veldHTML(v, kam) {
+  if (v.type === "info") return `<p class="hint" style="margin:0;font-size:14px">${esc(v.label)}</p>`;
+  const star = v.verplicht ? ` <span class="req-mark" aria-hidden="true">*</span>${kam ? ` <span class="kamreq">(verplicht voor KAM)</span>` : ""}` : "";
+  const req = v.verplicht && !kam ? " required" : "";
+  const lab = `<label for="f-${v.id}">${esc(v.label)}${star}</label>`;
+  const cond = v.toon ? ` cond" data-toon="${v.toon.veld}" data-is="${esc(v.toon.is || "")}" data-bevat="${esc(v.toon.bevat || "")}" hidden data-x="` : "";
+  const hint = v.hint ? `<span class="hint">${esc(v.hint)}</span>` : "";
+  let ctrl = "";
+  switch (v.type) {
+    case "meerkeuze":
+      return `<div class="field${cond}" data-field="${v.id}" role="group" aria-labelledby="l-${v.id}">
+        <span class="label" id="l-${v.id}">${esc(v.label)}${star}</span>${hint}
+        <div class="choices">${v.opties.map((o, i) =>
+          `<label class="choice check"><input type="checkbox" name="${v.id}" id="f-${v.id}-${i}" value="${esc(o)}"><span>${esc(o)}</span></label>`).join("")}</div>
+        <span class="err" hidden></span></div>`;
+    case "keuze":
+      return `<div class="field${cond}" data-field="${v.id}" role="radiogroup" aria-labelledby="l-${v.id}">
+        <span class="label" id="l-${v.id}">${esc(v.label)}${star}</span>${hint}
+        <div class="choices">${v.opties.map((o, i) =>
+          `<label class="choice"><input type="radio" name="${v.id}" id="f-${v.id}-${i}" value="${esc(o)}"><span>${esc(o)}</span></label>`).join("")}</div>
+        <span class="err" hidden></span></div>`;
+    case "kort":
+      ctrl = `<input type="text" id="f-${v.id}" name="${v.id}" autocomplete="off" style="max-width:240px"${req}>`; break;
+    case "lijst":
+      ctrl = `<select id="f-${v.id}" name="${v.id}"${req}><option value="">Kies…</option>${v.opties.map(o => `<option>${esc(o)}</option>`).join("")}</select>`; break;
+    case "aantal":
+      ctrl = `<input type="number" id="f-${v.id}" name="${v.id}" min="0" step="1" inputmode="numeric"${req}>`; break;
+    case "persoon":
+      ctrl = `<div class="person">${PERSON_ICON}<input type="text" id="f-${v.id}" name="${v.id}" list="personen" autocomplete="off" placeholder="Naam medewerker"${req}></div>`; break;
+    case "tekst":
+      ctrl = `<textarea id="f-${v.id}" name="${v.id}" rows="2"${req}></textarea>`; break;
+    case "memo":
+      ctrl = `<textarea id="f-${v.id}" name="${v.id}" rows="${v.rows || 4}"${req}></textarea>`; break;
+    case "datum":
+      ctrl = `<input type="date" id="f-${v.id}" name="${v.id}"${req}>`; break;
+    case "foto":
+      return `<div class="field upload" data-field="${v.id}">
+        <span class="label">${esc(v.label)}${star}</span>
+        <input type="file" id="f-${v.id}" name="${v.id}" accept="image/*" multiple>
+        <label class="drop" for="f-${v.id}">＋ Foto's toevoegen</label>
+        <div class="thumbs" id="thumbs-${v.id}"></div>
+        <span class="err" hidden></span>
+      </div>`;
+  }
+  return `<div class="field${cond}" data-field="${v.id}">${lab}${hint}${ctrl}<span class="err" hidden></span></div>`;
+}
+
+function itemHTML(item, kam) {
+  if (item.rij) return `<div class="row2">${item.rij.map(v => veldHTML(v, kam)).join("")}</div>`;
+  return veldHTML(item, kam);
+}
+
+function alleVelden(def) {
+  return def.secties.flatMap(s => s.velden.flatMap(i => i.rij ? i.rij : [i]).filter(v => v.type !== "info").map(v => ({ ...v, sectie: s.titel, kam: !!s.kam })));
+}
+
+function gekozen(form, id) {
+  return [...form.querySelectorAll(`input[type=checkbox][name="${id}"]:checked`)].map(i => i.value);
+}
+
+function waardeVan(form, id) {
+  if (form.querySelector(`input[type=checkbox][name="${id}"]`)) return gekozen(form, id).join(", ");
+  if (fotoStore[id]) return fotoStore[id].length ? `${fotoStore[id].length} foto('s)` : "";
+  const el = form.elements[id];
+  return el ? String(el.value || "").trim() : "";
+}
+
+function voldoet(form, veld, is, bevat) {
+  if (bevat) return gekozen(form, veld).includes(bevat);
+  return waardeVan(form, veld) === is;
+}
+
+function zichtbaar(form, v) {
+  return !v.toon || voldoet(form, v.toon.veld, v.toon.is, v.toon.bevat);
+}
+
+function updateCond(form) {
+  form.querySelectorAll(".field.cond").forEach(fld => {
+    fld.hidden = !voldoet(form, fld.dataset.toon, fld.dataset.is, fld.dataset.bevat);
+  });
+}
+
+function metWerkorder(def) {
+  return { ...def, secties: [
+    { titel: "Werkorder", velden: [
+      { id: "werkorder", label: "Werkordernummer", type: "kort", verplicht: true },
+    ]},
+    ...def.secties,
+  ]};
+}
+
+function renderForm(id, f) {
+  const def = FORMS[id] ? metWerkorder(FORMS[id]) : null;
+  view.style.setProperty("--c", f.kleur);
+  if (!def) {
+    view.innerHTML = `
+      <button class="back" type="button" id="terug">‹ Terug naar overzicht</button>
+      <div class="titlebar"><span class="cat">${esc(f.groep)}</span><h3>${esc(f.naam)}</h3>
+      <p>De velden voor dit formulier worden in een volgende stap toegevoegd.</p></div>`;
+    bindBack(); return;
+  }
+  fotoStore = {};
+  view.innerHTML = `
+    <button class="back" type="button" id="terug">‹ Terug naar overzicht</button>
+    <div class="titlebar">
+      <span class="cat">${esc(f.groep)}</span>
+      <h3>${esc(f.naam)}</h3>
+      <p>Velden met <span class="req-mark">*</span> zijn verplicht.</p>
+    </div>
+    ${def.melding ? `<div class="notice" role="note"><strong>Let op:</strong> ${esc(def.melding)}</div>` : ""}
+    <form id="kamform" novalidate>
+      ${def.secties.map(s => `
+        <fieldset class="${s.kam ? "kam" : ""}">
+          <legend>${esc(s.titel)}${s.kam ? `<span class="badge">In te vullen door KAM-coördinator</span>` : ""}</legend>
+          ${s.velden.map(i => itemHTML(i, s.kam)).join("")}
+        </fieldset>`).join("")}
+      <div class="actions">
+        <button class="btn primary" type="submit" id="indienen">Formulier indienen</button>
+        <button class="btn ghost" type="button" id="pdf">Formulier in PDF</button>
+        <button class="btn ghost" type="reset" id="wissen">Alles wissen</button>
+        <span class="formerr" id="formerr" role="alert" hidden></span>
+        <span class="hint" id="pdf-status" role="status"></span>
+      </div>
+    </form>
+    <datalist id="personen"></datalist>`;
+  bindBack();
+
+  const form = document.getElementById("kamform");
+  form.querySelectorAll("input[type=file]").forEach(inp => {
+    const fid = inp.name; fotoStore[fid] = [];
+    inp.addEventListener("change", () => {
+      [...inp.files].forEach(file => {
+        const r = new FileReader();
+        r.onload = () => { fotoStore[fid].push({ naam: file.name, url: r.result }); drawThumbs(fid); };
+        r.readAsDataURL(file);
+      });
+      inp.value = "";
+    });
+  });
+  form.addEventListener("input", e => {
+    const fld = e.target.closest(".field");
+    if (fld) { fld.classList.remove("invalid"); const er = fld.querySelector(".err"); if (er) er.hidden = true; }
+  });
+  form.addEventListener("change", () => updateCond(form));
+  form.addEventListener("reset", () => { Object.keys(fotoStore).forEach(k => { fotoStore[k] = []; drawThumbs(k); }); setTimeout(() => updateCond(form)); });
+  form.addEventListener("submit", e => { e.preventDefault(); submit(id, f, def, form); });
+  const pdfKnop = document.getElementById("pdf");
+  pdfKnop.onclick = () => { if (valideer(def, form)) pdfOpslaan(f, def, verzamel(def, form), document.getElementById("pdf-status"), pdfKnop); };
+}
+
+function drawThumbs(fid) {
+  const box = document.getElementById("thumbs-" + fid);
+  if (!box) return;
+  const fld = box.closest(".field");
+  if (fotoStore[fid].length && fld) { fld.classList.remove("invalid"); const er = fld.querySelector(".err"); if (er) er.hidden = true; }
+  box.innerHTML = fotoStore[fid].map((p, i) =>
+    `<div class="thumb"><img src="${p.url}" alt="${esc(p.naam)}"><button type="button" aria-label="Foto verwijderen" data-i="${i}">×</button></div>`).join("");
+  box.querySelectorAll("button").forEach(b => b.onclick = () => { fotoStore[fid].splice(+b.dataset.i, 1); drawThumbs(fid); });
+}
+
+function valideer(def, form) {
+  let eerste = null, fouten = 0;
+  alleVelden(def).forEach(v => {
+    if (!v.verplicht || v.kam || !zichtbaar(form, v)) return;
+    const fld = form.querySelector(`[data-field="${v.id}"]`);
+    const el = ["keuze", "meerkeuze", "foto"].includes(v.type) ? fld.querySelector("input") : form.elements[v.id];
+    const leeg = !waardeVan(form, v.id);
+    fld.classList.toggle("invalid", leeg);
+    const er = fld.querySelector(".err");
+    if (er) { er.textContent = leeg ? "Vul dit veld in." : ""; er.hidden = !leeg; }
+    if (leeg) { fouten++; eerste = eerste || el; }
+  });
+  const fe = document.getElementById("formerr");
+  if (fouten) {
+    fe.textContent = fouten === 1 ? "1 verplicht veld is nog leeg." : `${fouten} verplichte velden zijn nog leeg.`;
+    fe.hidden = false; eerste.focus(); return false;
+  }
+  fe.hidden = true;
+  return true;
+}
+
+function verzamel(def, form) {
+  const nu = new Date();
+  const stamp = nu.toLocaleString("nl-NL", { dateStyle: "short", timeStyle: "short" });
+  const fmt = (v, val) => v.type === "datum" && val ? val.split("-").reverse().join("-") : val;
+  const rows = alleVelden(def).filter(v => zichtbaar(form, v)).map(v => {
+    if (v.type === "foto") return { ...v, waarde: fotoStore[v.id].length ? `${fotoStore[v.id].length} foto('s)` : "" };
+    return { ...v, waarde: fmt(v, waardeVan(form, v.id)) };
+  });
+  const fotos = Object.values(fotoStore).flat().map(p => ({ ...p }));
+  return { nu, stamp, rows, fotos };
+}
+
+/* ---------- PDF ---------- */
+// Briefpapier Wit Wognum 2027 (A4, 200 dpi)
+const BRIEFPAPIER = "data:image/png;base64,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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA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";
+
+
+function verkleinFoto(url, max = 1600) {
+  return new Promise(res => {
+    const img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      res({ url: c.toDataURL("image/jpeg", 0.82), w: c.width, h: c.height });
+    };
+    img.onerror = () => res(null);
+    img.src = url;
+  });
+}
+
+async function maakPdf(f, def, data) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: "mm", format: "a4" });
+  const W = 210, H = 297, M = 16, labelW = 68, valX = M + labelW + 4, valW = W - M - valX;
+  const oranje = [217, 97, 28], navy = [29, 50, 71], grijs = [91, 105, 119], lijn = [217, 223, 229];
+  let y = 0;
+
+  // Briefpapier als achtergrond op elke pagina; inhoud tussen kop (logo) en voet (adresregel)
+  const TOP = 38, BOTTOM = 266;
+  const achtergrond = () => doc.addImage(BRIEFPAPIER, "PNG", 0, 0, W, H, "briefpapier", "FAST");
+  achtergrond();
+  doc.setTextColor(...oranje); doc.setFont("helvetica", "bold"); doc.setFontSize(8.5);
+  doc.text(("KAM PORTAAL  ·  " + f.groep).toUpperCase(), M, 24);
+  doc.setTextColor(...navy); doc.setFontSize(20);
+  doc.text(f.naam, M, 32);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(9); doc.setTextColor(...grijs);
+  doc.text(`Ingevuld op ${data.stamp}`, M, 38);
+  y = TOP + 10;
+
+  const nieuwePagina = () => { doc.addPage(); achtergrond(); y = TOP + 2; };
+  const ruimte = h => { if (y + h > BOTTOM) nieuwePagina(); };
+
+  doc.setTextColor(0, 0, 0);
+  def.secties.forEach(s => {
+    const rijen = data.rows.filter(r => r.sectie === s.titel);
+    if (!rijen.length) return;
+    ruimte(16);
+    doc.setFont("helvetica", "bold"); doc.setFontSize(11); doc.setTextColor(...navy);
+    doc.text(s.titel, M, y);
+    y += 2; doc.setDrawColor(...oranje); doc.setLineWidth(0.5); doc.line(M, y, W - M, y);
+    y += 5;
+    rijen.forEach(r => {
+      doc.setFontSize(9.5);
+      doc.setFont("helvetica", "normal");
+      const lab = doc.splitTextToSize(r.label, labelW);
+      doc.setFont("helvetica", r.waarde ? "bold" : "normal");
+      const val = doc.splitTextToSize(r.waarde || "–", valW);
+      const h = Math.max(lab.length, val.length) * 4.4 + 3;
+      ruimte(h);
+      doc.setFont("helvetica", "normal"); doc.setTextColor(...grijs); doc.text(lab, M, y);
+      doc.setFont("helvetica", r.waarde ? "bold" : "normal"); doc.setTextColor(r.waarde ? 23 : 150, r.waarde ? 34 : 160, r.waarde ? 46 : 170);
+      doc.text(val, valX, y);
+      y += h - 3;
+      doc.setDrawColor(...lijn); doc.setLineWidth(0.2); doc.line(M, y, W - M, y);
+      y += 4.5;
+    });
+    y += 4;
+  });
+
+  // Foto's
+  if (data.fotos.length) {
+    ruimte(20);
+    doc.setFont("helvetica", "bold"); doc.setFontSize(11); doc.setTextColor(...navy);
+    doc.text(`Foto's (${data.fotos.length})`, M, y);
+    y += 2; doc.setDrawColor(...oranje); doc.setLineWidth(0.5); doc.line(M, y, W - M, y); y += 5;
+    const gap = 6, colW = (W - 2 * M - gap) / 2, maxH = 95;
+    let col = 0, rijH = 0;
+    for (const p of data.fotos) {
+      const img = await verkleinFoto(p.url);
+      if (!img) continue;
+      let w = colW, h = img.h * (colW / img.w);
+      if (h > maxH) { h = maxH; w = img.w * (maxH / img.h); }
+      if (col === 0) ruimte(h + 4);
+      doc.addImage(img.url, "JPEG", M + col * (colW + gap), y, w, h);
+      rijH = Math.max(rijH, h);
+      col++;
+      if (col === 2) { y += rijH + gap; col = 0; rijH = 0; }
+    }
+    if (col) y += rijH + gap;
+  }
+
+  // Voettekst
+  const n = doc.getNumberOfPages();
+  for (let i = 1; i <= n; i++) {
+    doc.setPage(i);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.setTextColor(...grijs);
+    const wo = data.rows.find(r => r.id === "werkorder")?.waarde || "";
+    doc.text(`${f.naam}${wo ? "  ·  werkorder " + wo : ""}`, M, 271);
+    doc.text(`Pagina ${i} van ${n}`, W - M, 271, { align: "right" });
+  }
+  return doc.output("blob");
+}
+
+function pdfNaam(f, data) {
+  const wo = data.rows.find(r => r.id === "werkorder")?.waarde || "";
+  const d = data.nu, dag = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  return `${f.naam} WO ${wo} ${dag}`.replace(/[\\/:*?"<>|]+/g, "-").replace(/\s+/g, " ").trim() + ".pdf";
+}
+
+async function pdfOpslaan(f, def, data, statusEl, knop) {
+  const zet = t => { if (statusEl) statusEl.textContent = t; };
+  if (!window.jspdf) { zet("De PDF-functie is niet geladen. Controleer de internetverbinding en herlaad de pagina."); return; }
+  knop.disabled = true; zet("PDF wordt gemaakt…");
+  const actions = knop.closest(".actions");
+  actions.parentNode.querySelectorAll(".pdfpanel").forEach(p => p.remove());
+  try {
+    const blob = await maakPdf(f, def, data);
+    const naam = pdfNaam(f, data);
+    const file = new File([blob], naam, { type: "application/pdf" });
+    const kanDelen = !!(navigator.canShare && navigator.canShare({ files: [file] }));
+    const panel = document.createElement("div");
+    panel.className = "pdfpanel";
+    panel.innerHTML = `
+      <div class="pdfinfo"><strong>PDF klaar</strong><span>${esc(naam)} · ${Math.max(1, Math.round(blob.size / 1024))} kB</span></div>
+      <div class="actions">
+        ${kanDelen ? `<button class="btn primary" type="button" data-act="delen">PDF delen</button>` : ""}
+        <button class="btn ${kanDelen ? "ghost" : "primary"}" type="button" data-act="download">PDF downloaden</button>
+      </div>
+      <span class="hint" role="status"></span>`;
+    actions.after(panel);
+    const pst = panel.querySelector("[role=status]");
+    panel.querySelector('[data-act="download"]').onclick = () => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = naam; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      pst.textContent = "PDF gedownload.";
+    };
+    const dk = panel.querySelector('[data-act="delen"]');
+    if (dk) dk.onclick = async () => {
+      try {
+        await navigator.share({ files: [file], title: naam.replace(/\.pdf$/, ""), text: `${f.naam} – ingevuld ${data.stamp}` });
+        pst.textContent = "PDF gedeeld.";
+      } catch (e) {
+        pst.textContent = e && e.name === "AbortError" ? "Delen geannuleerd." : "Delen lukte niet. Gebruik PDF downloaden.";
+      }
+    };
+    zet("");
+    panel.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  } catch (e) {
+    zet("De PDF kon niet worden gemaakt.");
+  } finally { knop.disabled = false; }
+}
+
+function submit(id, f, def, form) {
+  if (!valideer(def, form)) return;
+  const data = verzamel(def, form);
+  const { stamp, rows } = data;
+
+  const tekst = [`${f.naam} — ingediend ${stamp}`, ""].concat(
+    def.secties.flatMap(s => [s.titel.toUpperCase()].concat(
+      rows.filter(r => r.sectie === s.titel).map(r => `${r.label}: ${r.waarde || "-"}`), [""]))).join("\n");
+
+  view.innerHTML = `
+    <button class="back" type="button" id="terug">‹ Terug naar overzicht</button>
+    <div class="titlebar"><span class="cat">${esc(f.groep)}</span><h3>${esc(f.naam)}</h3></div>
+    <div class="done">
+      <h4>Formulier ingevuld</h4>
+      <p>Het formulier wordt niet automatisch verstuurd. Maak een PDF en deel die met kantoor, of kopieer de tekst.</p>
+      <div class="summary">
+        ${def.secties.map(s => `<div><h5>${esc(s.titel)}</h5><dl>
+          ${rows.filter(r => r.sectie === s.titel).map(r => `<dt>${esc(r.label)}</dt><dd class="${r.waarde ? "" : "empty"}">${esc(r.waarde || "–")}</dd>`).join("")}
+        </dl></div>`).join("")}
+      </div>
+      <pre class="copybox" id="copybox">${esc(tekst)}</pre>
+      <div class="actions">
+        <button class="btn primary" type="button" id="pdf-done">Formulier in PDF</button>
+        <button class="btn ghost" type="button" id="kopieer">Tekst kopiëren</button>
+        <button class="btn ghost" type="button" id="nieuw">Nieuw formulier</button>
+        <span class="hint" id="kopieer-status" role="status"></span>
+      </div>
+    </div>`;
+  bindBack();
+  document.getElementById("nieuw").onclick = () => renderForm(id, f);
+  const pdfDone = document.getElementById("pdf-done");
+  pdfDone.onclick = () => pdfOpslaan(f, def, data, document.getElementById("kopieer-status"), pdfDone);
+  document.getElementById("kopieer").onclick = () => {
+    const st = document.getElementById("kopieer-status");
+    const sel = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById("copybox")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); st.textContent = "Tekst geselecteerd, kopieer met Ctrl+C."; };
+    try { navigator.clipboard.writeText(tekst).then(() => st.textContent = "Gekopieerd.", sel); } catch (_) { sel(); }
+  };
+  window.scrollTo(0, 0);
+}
+
+function bindBack() {
+  document.getElementById("terug").onclick = () => { location.hash = ""; render(); };
+}
+
+function render() {
+  const id = location.hash.slice(1);
+  const f = lookup[id];
+  if (!f) { home.hidden = false; view.hidden = true; return; }
+  renderForm(id, f);
+  home.hidden = true; view.hidden = false;
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", render);
+render();
+</script>
+
+</body>
+</html>

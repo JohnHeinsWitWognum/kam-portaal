@@ -801,8 +801,7 @@ function renderForm(id, f) {
           ${s.velden.map(i => itemHTML(i, s.kam)).join("")}
         </fieldset>`).join("")}
       <div class="actions">
-        <button class="btn primary" type="submit" id="indienen">Formulier indienen</button>
-        <button class="btn ghost" type="button" id="pdf">Formulier in PDF</button>
+        <button class="btn primary" type="button" id="pdf">Formulier in PDF</button>
         <button class="btn ghost" type="reset" id="wissen">Alles wissen</button>
         <span class="formerr" id="formerr" role="alert" hidden></span>
         <span class="hint" id="pdf-status" role="status"></span>
@@ -829,7 +828,7 @@ function renderForm(id, f) {
   });
   form.addEventListener("change", () => updateCond(form));
   form.addEventListener("reset", () => { Object.keys(fotoStore).forEach(k => { fotoStore[k] = []; drawThumbs(k); }); setTimeout(() => updateCond(form)); });
-  form.addEventListener("submit", e => { e.preventDefault(); submit(id, f, def, form); });
+  form.addEventListener("submit", e => { e.preventDefault(); document.getElementById("pdf").click(); });
   const pdfKnop = document.getElementById("pdf");
   pdfKnop.onclick = () => { if (valideer(def, form)) pdfOpslaan(f, def, verzamel(def, form), document.getElementById("pdf-status"), pdfKnop); };
 }

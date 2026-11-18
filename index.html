@@ -203,22 +203,6 @@ const FORMS = {
         { id: "fotos", label: "Foto's van de afwijking, indien mogelijk", type: "foto" },
         { id: "acties", label: "Zijn er acties ondernomen om herhaling te voorkomen?", type: "tekst", verplicht: true },
       ]},
-      { titel: "Afhandeling KAM-coördinator", kam: true, velden: [
-        { id: "besproken_betrokkene", label: "Besproken met betrokkene", type: "tekst" },
-        { rij: [
-          { id: "rol_betrokkene", label: "Rol van betrokkene", type: "memo", rows: 2 },
-          { id: "datum_betrokkene", label: "Datum", type: "datum" },
-        ]},
-        { id: "besproken_melder", label: "Besproken met melder", type: "persoon" },
-        { rij: [
-          { id: "rol_melder", label: "Rol van melder", type: "memo", rows: 2 },
-          { id: "datum_melder", label: "Datum", type: "datum" },
-        ]},
-        { id: "waarom", label: "Waarom is de afwijking / het incident ontstaan?", type: "memo" },
-        { id: "herstel", label: "Omschrijf (indien van toepassing) de te nemen herstelmaatregelen", type: "memo" },
-        { id: "corrigerend", label: "Omschrijf (indien van toepassing) de corrigerende maatregelen", type: "memo" },
-        { id: "preventief", label: "Omschrijf (indien van toepassing) de preventieve maatregelen", type: "memo" },
-      ]},
     ],
   },
   "bijna-ongeval": {
@@ -236,25 +220,6 @@ const FORMS = {
         { id: "acties", label: "Zijn er acties ondernomen om herhaling van het bijna ongeval te voorkomen?", type: "keuze", opties: ["Ja", "Nee"], verplicht: true },
         { id: "acties_welke", label: "De volgende acties zijn ondernomen", type: "tekst", toon: { veld: "acties", is: "Ja" } },
         { id: "acties_waarom_niet", label: "Waarom zijn er geen acties ondernomen?", type: "tekst", toon: { veld: "acties", is: "Nee" } },
-      ]},
-      { titel: "Afhandeling KAM-coördinator", kam: true, velden: [
-        { id: "besproken_betrokkene", label: "Besproken met betrokkene", type: "tekst" },
-        { rij: [
-          { id: "rol_betrokkene", label: "Rol van betrokkene", type: "memo", rows: 2 },
-          { id: "datum_betrokkene", label: "Datum", type: "datum" },
-        ]},
-        { id: "besproken_melder", label: "Besproken met melder", type: "persoon" },
-        { rij: [
-          { id: "rol_melder", label: "Rol van melder", type: "memo", rows: 2 },
-          { id: "datum_melder", label: "Datum", type: "datum" },
-        ]},
-        { id: "waarom", label: "Waarom is de schade / het (bijna)ongeval ontstaan?", type: "memo", verplicht: true },
-        { id: "herstel", label: "Omschrijf (indien van toepassing) de te nemen herstelmaatregelen", type: "memo" },
-        { id: "corrigerend", label: "Omschrijf (indien van toepassing) de corrigerende maatregelen", type: "memo" },
-        { id: "preventief", label: "Omschrijf (indien van toepassing) de preventieve maatregelen", type: "memo" },
-        { id: "conclusie", label: "Conclusie", type: "memo" },
-        { id: "opvolg", label: "Zijn er opvolgacties benodigd?", type: "keuze", opties: ["Ja", "Nee"] },
-        { id: "opvolg_aantal", label: "Hoeveel opvolgacties zijn benodigd?", type: "aantal", toon: { veld: "opvolg", is: "Ja" } },
       ]},
     ],
   },
@@ -280,25 +245,6 @@ const FORMS = {
         { id: "arts", label: "Is een arts of ziekenhuis bezocht voor behandeling van het letsel?", type: "keuze", opties: ["Ja", "Nee"], verplicht: true },
         { id: "arts_naam", label: "Naam ziekenhuis en/of arts", type: "tekst", toon: { veld: "arts", is: "Ja" } },
       ]},
-      { titel: "Afhandeling KAM-coördinator", kam: true, velden: [
-        { id: "besproken_betrokkene", label: "Besproken met betrokkene", type: "tekst" },
-        { rij: [
-          { id: "rol_betrokkene", label: "Rol van betrokkene", type: "memo", rows: 2 },
-          { id: "datum_betrokkene", label: "Datum", type: "datum" },
-        ]},
-        { id: "besproken_melder", label: "Besproken met melder", type: "persoon" },
-        { rij: [
-          { id: "rol_melder", label: "Rol van melder", type: "memo", rows: 2 },
-          { id: "datum_melder", label: "Datum", type: "datum" },
-        ]},
-        { id: "waarom", label: "Waarom is de schade / het (bijna)ongeval ontstaan?", type: "memo", verplicht: true },
-        { id: "herstel", label: "Omschrijf (indien van toepassing) de te nemen herstelmaatregelen", type: "memo" },
-        { id: "corrigerend", label: "Omschrijf (indien van toepassing) de corrigerende maatregelen", type: "memo" },
-        { id: "preventief", label: "Omschrijf (indien van toepassing) de preventieve maatregelen", type: "memo" },
-        { id: "conclusie", label: "Conclusie", type: "memo" },
-        { id: "opvolg", label: "Zijn er opvolgacties benodigd?", type: "keuze", opties: ["Ja", "Nee"] },
-        { id: "opvolg_aantal", label: "Hoeveel opvolgacties zijn benodigd?", type: "aantal", toon: { veld: "opvolg", is: "Ja" } },
-      ]},
     ],
   },
   "schade": {
@@ -316,25 +262,6 @@ const FORMS = {
         { id: "veroorzaakt_door", label: "Door wie/wat is de schade veroorzaakt?", type: "tekst" },
         { id: "voorkomen", label: "Hoe had de schade voorkomen kunnen worden?", type: "tekst" },
         { id: "fotos", label: "Foto's van de schade", type: "foto", verplicht: true },
-      ]},
-      { titel: "Afhandeling KAM-coördinator", kam: true, velden: [
-        { id: "besproken_betrokkene", label: "Besproken met betrokkene", type: "tekst" },
-        { rij: [
-          { id: "rol_betrokkene", label: "Rol van betrokkene", type: "memo", rows: 2 },
-          { id: "datum_betrokkene", label: "Datum", type: "datum" },
-        ]},
-        { id: "besproken_melder", label: "Besproken met melder", type: "persoon" },
-        { rij: [
-          { id: "rol_melder", label: "Rol van melder", type: "memo", rows: 2 },
-          { id: "datum_melder", label: "Datum", type: "datum" },
-        ]},
-        { id: "waarom", label: "Waarom is de schade / het (bijna)ongeval ontstaan?", type: "memo", verplicht: true },
-        { id: "herstel", label: "Omschrijf (indien van toepassing) de te nemen herstelmaatregelen", type: "memo" },
-        { id: "corrigerend", label: "Omschrijf (indien van toepassing) de corrigerende maatregelen", type: "memo" },
-        { id: "preventief", label: "Omschrijf (indien van toepassing) de preventieve maatregelen", type: "memo" },
-        { id: "conclusie", label: "Conclusie", type: "memo" },
-        { id: "opvolg", label: "Zijn er opvolgacties benodigd?", type: "keuze", opties: ["Ja", "Nee"] },
-        { id: "opvolg_aantal", label: "Hoeveel opvolgacties zijn benodigd?", type: "aantal", toon: { veld: "opvolg", is: "Ja" } },
       ]},
     ],
   },
@@ -465,11 +392,6 @@ const FORMS = {
       { titel: "Algemene indruk van de bouwplaats", velden: [
         { id: "indruk", label: "Wat is de overall indruk van de bouwplaats?", type: "keuze", opties: ["1: Onveilig", "2: Matig", "3: Voldoende", "4: Goed"], verplicht: true },
         { id: "positief", label: "Welke positieve Veiligheid, Gezondheid & Milieu (VGM) aspecten zijn opgevallen?", type: "memo" },
-      ]},
-      { titel: "Afhandeling KAM-coördinator", kam: true, velden: [
-        { id: "afwijkingen", label: "Zijn er afwijkingen geconstateerd?", type: "keuze", opties: ["Ja", "Nee"] },
-        { id: "opvolg", label: "Zijn er opvolgacties benodigd?", type: "keuze", opties: ["Ja", "Nee"] },
-        { id: "opvolg_aantal", label: "Hoeveel opvolgacties zijn benodigd?", type: "aantal", toon: { veld: "opvolg", is: "Ja" } },
       ]},
     ],
   },
@@ -610,18 +532,6 @@ const FORMS = {
       { titel: "Verbetering", velden: [
         { id: "omschrijving", label: "Omschrijving van de verbetering", type: "tekst", verplicht: true },
         { id: "doel", label: "Wat is het doel van de verbetering?", type: "tekst", verplicht: true },
-      ]},
-      { titel: "Afhandeling KAM-coördinator", kam: true, velden: [
-        { rij: [
-          { id: "besproken_betrokkene", label: "Besproken met betrokkene", type: "tekst" },
-          { id: "datum_betrokkene", label: "Datum", type: "datum" },
-        ]},
-        { id: "rol_betrokkene", label: "Rol van betrokkene", type: "memo", rows: 2 },
-        { rij: [
-          { id: "besproken_melder", label: "Besproken met melder", type: "persoon" },
-          { id: "datum_melder", label: "Datum", type: "datum" },
-        ]},
-        { id: "rol_melder", label: "Rol van melder", type: "memo", rows: 2 },
       ]},
     ],
   },
